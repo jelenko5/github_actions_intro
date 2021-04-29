@@ -1,5 +1,8 @@
 name: GitHub Actions Demo
-on: [push]  # Event that triggers this workflow. Workflow can also be scheduled
+on:
+  push:
+    branches:
+      - main
 env:
   WORKFLOW_ENV_VAR: Env var accessible from all jobs in this workflow.
 jobs:       # Jobs are, by default, run in parallel in separate runners. That is configurable.
@@ -7,7 +10,7 @@ jobs:       # Jobs are, by default, run in parallel in separate runners. That is
     env:
       JOB_ENV_VAR: Env var accessible from all steps in this job.
       WORKFLOW_ENV_VAR: This env var overrides WORKFLOW_ENV_VAR from workflow.
-    # Underlying machine where jobs are run. Jobs can also run on my server that has Github Actions app installed
+    # Underlying machine where jobs are run. Jobs can also run on my self-hosted server that has Github Actions app installed
     # Fresh runner is spawned for every new job
     runs-on: ubuntu-latest
     steps:  # List of steps to be executed sequentially inside one worker and
