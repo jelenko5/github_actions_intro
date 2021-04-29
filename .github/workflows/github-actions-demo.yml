@@ -20,7 +20,9 @@ jobs:       # Jobs are, by default, run in parallel in separate runners. That is
         env:
           STEP_ENV_VAR: Env var accessible only from this step
           WORKFLOW_ENV_VAR: This env var overrides WORKFLOW_ENV_VAR from workflow and job.
-        run: echo "STEP_ENV_VAR value is $STEP_ENV_VAR \n and WORKFLOW_ENV_VAR is $WORKFLOW_ENV_VAR"
+        run: |
+          echo "STEP_ENV_VAR value is $STEP_ENV_VAR"
+          echo "WORKFLOW_ENV_VAR is $WORKFLOW_ENV_VAR"
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
       - name: List files in the repository
