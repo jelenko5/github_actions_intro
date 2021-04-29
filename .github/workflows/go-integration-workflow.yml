@@ -1,0 +1,35 @@
+name: GO Integration Demo
+on:
+  pull_request:
+    types: [assigned, opened, synchronize, reopened]
+    branches:
+      - main
+env:
+  WORKFLOW_ENV_VAR: Env var accessible from all jobs in this workflow.
+jobs:
+  Build-And-Execute:
+    env:
+      JOB_ENV_VAR: Env var accessible from all steps in this job.
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v2   # Community made actions from GitHub Actions Marketplace
+      - name: Setup Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.16.3'
+      - name: Install dependencies
+        run: |
+          go version
+          go get -u golang.org/x/lint/golint
+      - name: Run build
+        run: go build .
+      - name: Run vet & lint
+        run: |
+          go vet .
+          golint .
+      - name: Run MAIN
+        run: go run .
+
