@@ -1,14 +1,26 @@
 name: GitHub Actions Demo
-on: [push]
-jobs:
-  Explore-GitHub-Actions:
+on: [push]  # Event that triggers this workflow. Workflow can also be scheduled
+env:
+  WORKFLOW_ENV_VAR: Env var accessible from all jobs in this workflow.
+jobs:       # Jobs are, by default, run in parallel in separate runners. That is configurable.
+  Explore-GitHub-Actions:  # Job name
+    env:
+      JOB_ENV_VAR: Env var accessible from all steps in this job.
+      WORKFLOW_ENV_VAR: This env var overrides WORKFLOW_ENV_VAR from workflow.
+    # Underlying machine where jobs are run. Jobs can also run on my server that has Github Actions app installed
+    # Fresh runner is spawned for every new job
     runs-on: ubuntu-latest
-    steps:
+    steps:  # List of steps to be executed sequentially inside one worker and
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - name: Check out repository code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2   # Community made actions from GitHub Actions Marketplace
+      - name: Env var override example
+        env:
+          STEP_ENV_VAR: Env var accessible only from this step
+          WORKFLOW_ENV_VAR: This env var overrides WORKFLOW_ENV_VAR from workflow and job.
+        run: echo "STEP_ENV_VAR value is $STEP_ENV_VAR \n and WORKFLOW_ENV_VAR is $WORKFLOW_ENV_VAR"
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
       - name: List files in the repository
